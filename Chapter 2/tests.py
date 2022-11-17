@@ -21,7 +21,7 @@ class RedisKeySchemaTest(unittest.TestCase):
         """Method sets a local Redis instance and other instance variables for
         other test methods""" 
         self.test_db = redis.StrictRedis() # Assumes an empty Redis instance
-        if test_db.dbsize() > 0:
+        if self.test_db.dbsize() > 0:
             raise ValueError("Redis Test Instance must be empty")
 
     def tearDown(self):
@@ -32,7 +32,7 @@ class BookKeySchemaTest(RedisKeySchemaTest):
 
     def test_delimiter(self):
         """Method tests for a colon in  Redis keys in the datastore."""
-        first_key = next(self.test_db.scan("book*"))
+        first_key = next(self.test_db.scan("0 MATCH book* "))
         self.assert_(first_key.startswith("book:"))    
 
 if __name__ == '__main__':
